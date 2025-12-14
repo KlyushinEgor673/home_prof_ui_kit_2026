@@ -26,49 +26,49 @@ class CartButton extends StatelessWidget {
       height: 24 / 17,
       letterSpacing: 0,
     );
-    return Image.asset('images/cat.jpg', package: 'home_prof_ui_kit_2026',);
-    //   GestureDetector(
-    //   onTap: onTap,
-    //   child: Container(
-    //     width: width,
-    //     height: height,
-    //     decoration: BoxDecoration(
-    //       borderRadius: BorderRadius.circular(10),
-    //       color: ColorsApp.accent,
-    //     ),
-    //     child: Stack(
-    //       children: [
-    //         Positioned(
-    //           top: 16,
-    //           left: 16,
-    //           child: Row(
-    //             children: [
-    //               SvgPicture.asset(
-    //                 'images/shopping-cart.svg',
-    //                 package: 'home_prof_ui_kit_2026',
-    //                 height: 20,
-    //                 width: 20,
-    //                 color: Colors.white,
-    //               ),
-    //               SizedBox(width: 16),
-    //               Text('В корзину', style: textStyle),
-    //             ],
-    //           ),
-    //         ),
-    //         Positioned(
-    //           top: 16,
-    //           right: 16,
-    //           child: Row(
-    //             children: [
-    //               Text(price, style: textStyle),
-    //               SizedBox(width: 6),
-    //               Text('₽', style: textStyle),
-    //             ],
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
+    return
+      GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(10),
+          color: ColorsApp.accent,
+        ),
+        child: Stack(
+          children: [
+            Positioned(
+              top: 16,
+              left: 16,
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    'images/shopping-cart.svg',
+                    package: 'home_prof_ui_kit_2026',
+                    height: 20,
+                    width: 20,
+                    color: Colors.white,
+                  ),
+                  SizedBox(width: 16),
+                  Text('В корзину', style: textStyle),
+                ],
+              ),
+            ),
+            Positioned(
+              top: 16,
+              right: 16,
+              child: Row(
+                children: [
+                  Text(price, style: textStyle),
+                  SizedBox(width: 6),
+                  Text('₽', style: textStyle),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
