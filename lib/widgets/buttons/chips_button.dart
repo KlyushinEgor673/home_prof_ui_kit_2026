@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:home_prof_ui_kit_2026/ColorsApp.dart';
 
 enum ChipsButtonColor { blue, gray }
 
@@ -17,7 +16,7 @@ class ChipsButton extends StatelessWidget {
           height: 48,
           padding: EdgeInsets.symmetric(horizontal: 20),
           decoration: BoxDecoration(
-            color: color == ChipsButtonColor.blue ? ColorsApp.accent : ColorsApp.inputBG,
+            color: color == ChipsButtonColor.blue ? Color.fromRGBO(32, 116, 242, 1) : Color.fromRGBO(247, 247, 250, 1),
             borderRadius: BorderRadius.circular(10)
           ),
           child: Center(
@@ -27,7 +26,7 @@ class ChipsButton extends StatelessWidget {
               fontSize: 15,
               height: 20 / 15,
               letterSpacing: 0,
-              color: color == ChipsButtonColor.blue ? Colors.white : ColorsApp.description
+              color: color == ChipsButtonColor.blue ? Colors.white : Color.fromRGBO(135, 135, 161, 1)
             ),),
           ),
         ),

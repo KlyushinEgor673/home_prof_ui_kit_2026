@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:home_prof_ui_kit_2026/ColorsApp.dart';
 
 enum BigButtonColor { blue, lightBlue, white, gray }
 
@@ -31,19 +30,19 @@ class _BigButtonState extends State<BigButton> {
     super.initState();
     switch (widget.color) {
       case BigButtonColor.blue:
-        color = ColorsApp.accent;
+        color = Color.fromRGBO(32, 116, 242, 1);
         colorText = Colors.white;
         break;
       case BigButtonColor.lightBlue:
-        color = ColorsApp.accentInactive;
+        color = Color.fromRGBO(197, 210, 255, 1);
         colorText = Colors.white;
         break;
       case BigButtonColor.white:
         color = Colors.white;
-        colorText = ColorsApp.accent;
+        colorText = Color.fromRGBO(32, 116, 242, 1);
         break;
       case BigButtonColor.gray:
-        color = ColorsApp.inputBG;
+        color = Color.fromRGBO(247, 247, 250, 1);
         colorText = Colors.black;
         break;
     }
@@ -60,7 +59,7 @@ class _BigButtonState extends State<BigButton> {
           borderRadius: BorderRadius.circular(10),
           color: color,
           border: widget.color == BigButtonColor.white
-              ? Border.all(color: ColorsApp.accent, width: 1)
+              ? Border.all(color: Color.fromRGBO(32, 116, 242, 1), width: 1)
               : null,
         ),
         child: Center(

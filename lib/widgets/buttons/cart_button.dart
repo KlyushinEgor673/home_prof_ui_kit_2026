@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:home_prof_ui_kit_2026/ColorsApp.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class CartButton extends StatelessWidget {
@@ -34,7 +33,7 @@ class CartButton extends StatelessWidget {
         height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: ColorsApp.accent,
+          color: Color.fromRGBO(32, 116, 242, 1),
         ),
         child: Stack(
           children: [
@@ -44,7 +43,7 @@ class CartButton extends StatelessWidget {
               child: Row(
                 children: [
                   SvgPicture.asset(
-                    'images/shopping-cart.svg',
+                    'icons/shopping-cart.svg',
                     package: 'home_prof_ui_kit_2026',
                     height: 20,
                     width: 20,

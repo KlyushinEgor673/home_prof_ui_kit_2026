@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:home_prof_ui_kit_2026/ColorsApp.dart';
 
 enum SmallButtonColor { blue, lightBlue, white, gray }
 
@@ -29,24 +28,22 @@ class _SmallButtonState extends State<SmallButton> {
   String text = '';
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
+  Widget build(BuildContext context) {
     switch (widget.color) {
       case SmallButtonColor.blue:
-        color = ColorsApp.accent;
+        color = Color.fromRGBO(32, 116, 242, 1);
         colorText = Colors.white;
         break;
       case SmallButtonColor.lightBlue:
-        color = ColorsApp.accentInactive;
+        color = Color.fromRGBO(197, 210, 255, 1);
         colorText = Colors.white;
         break;
       case SmallButtonColor.white:
         color = Colors.white;
-        colorText = ColorsApp.accent;
+        colorText = Color.fromRGBO(32, 116, 242, 1);
         break;
       case SmallButtonColor.gray:
-        color = ColorsApp.inputBG;
+        color = Color.fromRGBO(247, 247, 250, 1);
         colorText = Colors.black;
         break;
     }
@@ -55,10 +52,6 @@ class _SmallButtonState extends State<SmallButton> {
     } else {
       text = '${widget.text.substring(0, 7)}...';
     }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
@@ -68,7 +61,7 @@ class _SmallButtonState extends State<SmallButton> {
           borderRadius: BorderRadius.circular(10),
           color: color,
           border: widget.color == SmallButtonColor.white
-              ? Border.all(color: ColorsApp.accent, width: 1)
+              ? Border.all(color: Color.fromRGBO(32, 116, 242, 1), width: 1)
               : null,
         ),
         child: Center(
