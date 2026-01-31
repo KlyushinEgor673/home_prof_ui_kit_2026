@@ -1,8 +1,10 @@
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-enum InputType { text, password, date }
+enum InputType { text, password, date, email }
 
 class Input extends StatefulWidget {
   const Input({
@@ -13,7 +15,7 @@ class Input extends StatefulWidget {
     required this.errorText,
     required this.controller,
     this.title,
-    required this.type,
+    required this.type, this.startError,
   });
 
   final double width;
@@ -23,6 +25,7 @@ class Input extends StatefulWidget {
   final TextEditingController controller;
   final String? title;
   final InputType type;
+  final String? startError;
 
   @override
   State<Input> createState() => _InputState();
@@ -35,11 +38,21 @@ class _InputState extends State<Input> {
   bool _isPassword = false;
   bool _isEyeOn = true;
   String oldValue = '';
+  String errorText = '';
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    setState(() {
+      errorText = widget.errorText;
+    });
+    if (widget.startError != null){
+      setState(() {
+        errorText = widget.startError!;
+        _isError = true;
+      });
+    }
     _focusNode.addListener(() {
       if (_focusNode.hasFocus) {
         setState(() {
@@ -47,6 +60,42 @@ class _InputState extends State<Input> {
           _isFocus = true;
         });
       } else {
+        if (widget.controller.text == '') {
+          setState(() {
+            _isError = true;
+            errorText = widget.errorText;
+          });
+        } else if (widget.type == InputType.date){
+          if (widget.controller.text.length < 10){
+            setState(() {
+              _isError = true;
+            });
+          } else {
+            List dateList = widget.controller.text.split('.');
+            int day = int.parse(dateList[0]);
+            int month = int.parse(dateList[1]);
+            int year = int.parse(dateList[2]);
+            final date = DateTime(year, month, day);
+            if (date.year != year || date.month != month || date.day != day) {
+              setState(() {
+                errorText = "Введите коректную дату";
+                _isError = true;
+              });
+            } else {
+              setState(() {
+                _isError = false;
+              });
+            }
+          }
+        } else if (widget.type == InputType.email){
+          bool isValid =  EmailValidator.validate(widget.controller.text);
+          if (!isValid){
+            setState(() {
+              errorText = "Введите коректный email";
+              _isError = true;
+            });
+          }
+        }
         setState(() {
           _isFocus = false;
         });
@@ -61,6 +110,8 @@ class _InputState extends State<Input> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, designSize: const Size(375, 812));
+    Orientation orientation = MediaQuery.of(context).orientation;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -72,7 +123,7 @@ class _InputState extends State<Input> {
               style: TextStyle(
                 fontFamily: 'RobotoFlex',
                 fontWeight: FontWeight.w400,
-                fontSize: 14,
+                fontSize:orientation == Orientation.portrait ? 14.sp : 14,
                 height: 20 / 14,
                 letterSpacing: 0,
                 color: Color.fromRGBO(126, 126, 154, 1),
@@ -127,7 +178,7 @@ class _InputState extends State<Input> {
                         hintStyle: TextStyle(
                           fontFamily: 'RobotoFlex',
                           fontWeight: FontWeight.w400,
-                          fontSize: 15,
+                          fontSize: orientation == Orientation.portrait ? 15.sp : 15,
                           height: 20 / 15,
                           letterSpacing: 0,
                           color: Color.fromRGBO(147, 147, 150, 1),
@@ -135,51 +186,22 @@ class _InputState extends State<Input> {
                       ),
                       style: TextStyle(
                         fontFamily: 'RobotoFlex',
-                        fontSize: 15,
+                        fontSize: orientation == Orientation.portrait ? 15.sp : 15,
                         fontWeight: FontWeight.w400,
                         height: 20 / 15,
                         letterSpacing: 0,
                       ),
-                      onSubmitted: (value) {
-                        if (widget.controller.text == '') {
-                          setState(() {
-                            _isError = true;
-                          });
-                        } else if (widget.type == InputType.date){
-                          if (widget.controller.text.length < 10){
-                            setState(() {
-                              _isError = true;
-                            });
-                          } else {
-                            List dateList = widget.controller.text.split('.');
-                            int day = int.parse(dateList[0]);
-                            int month = int.parse(dateList[1]);
-                            int year = int.parse(dateList[2]);
-                            final date = DateTime(year, month, day);
-                            if (date.year != year || date.month != month || date.day != day) {
-                              setState(() {
-                                _isError = true;
-                              });
-                            } else {
-                              setState(() {
-                                _isError = false;
-                              });
-                            }
-                          }
-                        }
-                      },
                       onChanged: (value){
                         if (widget.type == InputType.date){
-                          if (value.endsWith(".") && (value.length != 3 || value.length != 6)){
+                          if (oldValue.endsWith('.') && value.length == 2){
                             setState(() {
-                              widget.controller.text = value.substring(0, value.length - 1);
+                              widget.controller.text = widget.controller.text.substring(0, 1);
                             });
                           }
-                          else if (oldValue.endsWith('.') && value.length == 2){
-                            widget.controller.text = widget.controller.text.substring(0, 1);
-                          }
                           else if (oldValue.endsWith('.') && value.length == 5){
-                            widget.controller.text = widget.controller.text.substring(0, 4);
+                            setState(() {
+                              widget.controller.text = widget.controller.text.substring(0, 4);
+                            });
                           }
                           else if (value.length == 2 || value.length == 5){
                             setState(() {
@@ -191,7 +213,9 @@ class _InputState extends State<Input> {
                               widget.controller.text = widget.controller.text.substring(0, 10);
                             });
                           }
-                          oldValue = value;
+                          setState(() {
+                            oldValue = widget.controller.text;
+                          });
                         }
                       },
                     ),
@@ -204,8 +228,8 @@ class _InputState extends State<Input> {
                       child: SvgPicture.asset(
                         _isEyeOn ? 'icons/eye-on.svg' : 'icons/eye-off.svg',
                         package: 'home_prof_ui_kit_2026',
-                        height: 20,
-                        width: 20,
+                        height: orientation == Orientation.portrait ? 20.sp : 20,
+                        width: orientation == Orientation.portrait ? 20.sp : 20,
                         color: Color.fromRGBO(0, 0, 0, 1),
                       ),
                       onTap: (){
@@ -223,11 +247,11 @@ class _InputState extends State<Input> {
           Container(
             margin: EdgeInsets.only(top: 8),
             child: Text(
-              widget.errorText,
+              errorText,
               style: TextStyle(
                 fontFamily: 'RobotoFlex',
                 fontWeight: FontWeight.w400,
-                fontSize: 14,
+                fontSize: orientation == Orientation.portrait ? 14.sp : 14,
                 height: 20 / 14,
                 letterSpacing: 0,
                 color: Color.fromRGBO(253, 53, 53, 1),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class LogInButton extends StatelessWidget {
@@ -17,6 +18,8 @@ class LogInButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, designSize: const Size(375, 812));
+    Orientation orientation = MediaQuery.of(context).orientation;
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -33,14 +36,14 @@ class LogInButton extends StatelessWidget {
             SvgPicture.asset(
               isVK ? 'images/vk.svg' : 'images/yandex.svg',
               package: 'home_prof_ui_kit_2026',
-              height: 32,
-              width: 32,
+              height: orientation == Orientation.portrait ? 32.w : 32,
+              width: orientation == Orientation.portrait ? 32.w : 32,
             ),
-            SizedBox(width: 16),
+            SizedBox(width: orientation == Orientation.portrait ? 16.w : 16),
             Text(isVK ? 'Войти с VK' : 'Войти с Yandex', style: TextStyle(
               fontFamily: 'RobotoFlex',
               fontWeight: FontWeight.w500,
-              fontSize: 17,
+              fontSize: orientation == Orientation.portrait ? 17.sp : 17,
               height: 24 / 17,
               letterSpacing: 0
             ),),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum SmallButtonColor { blue, lightBlue, white, gray }
 
@@ -29,6 +30,8 @@ class _SmallButtonState extends State<SmallButton> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, designSize: const Size(375, 812));
+    Orientation orientation = MediaQuery.of(context).orientation;
     switch (widget.color) {
       case SmallButtonColor.blue:
         color = Color.fromRGBO(32, 116, 242, 1);
@@ -69,7 +72,7 @@ class _SmallButtonState extends State<SmallButton> {
             text,
             style: TextStyle(
               color: colorText,
-              fontSize: 14,
+              fontSize: orientation == Orientation.portrait ? 14.sp : 14,
               height: 20 / 14,
               letterSpacing: 0,
               fontWeight: FontWeight.w600,

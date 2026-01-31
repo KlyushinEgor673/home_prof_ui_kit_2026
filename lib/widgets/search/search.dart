@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Search extends StatefulWidget {
@@ -46,6 +47,8 @@ class _SearchState extends State<Search> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, designSize: const Size(375, 812));
+    Orientation orientation = MediaQuery.of(context).orientation;
     return Container(
       decoration: BoxDecoration(
         color: Color.fromRGBO(245, 245, 249, 1),
@@ -57,25 +60,25 @@ class _SearchState extends State<Search> {
       child: Stack(
         children: [
           Positioned(
-            left: 14,
+            left: orientation == Orientation.portrait ? 14.w : 14,
             top: 0,
             bottom: 0,
             child: Center(
               child: SvgPicture.asset(
                 'icons/search.svg',
                 package: 'home_prof_ui_kit_2026',
-                height: 20,
-                width: 20,
+                height: orientation == Orientation.portrait ? 20.h : 20,
+                width: orientation == Orientation.portrait ? 20.w : 20,
               ),
             ),
           ),
           Positioned(
-            left: 42,
+            left: orientation == Orientation.portrait ? 42.w : 42,
             top: 0,
             bottom: 0,
             child: Center(
               child: SizedBox(
-                width: widget.width - 96,
+                width:  widget.width - (orientation == Orientation.portrait ? 96.w : 96),
                 child: TextSelectionTheme(data: TextSelectionThemeData(
                   cursorColor: Color.fromRGBO(32, 116, 242, 1),
                   selectionHandleColor: Color.fromRGBO(32, 116, 242, 1),
@@ -83,14 +86,30 @@ class _SearchState extends State<Search> {
                 ), child: TextField(
                   focusNode: _focusNode,
                   controller: widget.textEditingController,
-                  decoration: InputDecoration(border: InputBorder.none),
+                  style: TextStyle(
+                      fontFamily: 'SFProDisplay',
+                      fontWeight: FontWeight.w400,
+                      fontSize: orientation == Orientation.portrait ? 16.sp : 16,
+                      height: 20 / 16,
+                      letterSpacing: -0.32
+                  ),
+                  decoration: InputDecoration(border: InputBorder.none,
+                  hintText: 'Искать описание',
+                  hintStyle: TextStyle(
+                    fontFamily: 'SFProDisplay',
+                    fontWeight: FontWeight.w400,
+                    fontSize: orientation == Orientation.portrait ? 16.sp : 16,
+                    height: 20 / 16,
+                    letterSpacing: -0.32,
+                    color: Color.fromRGBO(147, 147, 150, 1)
+                  )),
                 )),
               ),
             ),
           ),
           if (_isFocused)
             Positioned(
-              right: 14,
+              right: orientation == Orientation.portrait ? 14.w : 14,
               top: 0,
               bottom: 0,
               child: Center(
@@ -98,8 +117,8 @@ class _SearchState extends State<Search> {
                   child: SvgPicture.asset(
                     'icons/close.svg',
                     package: 'home_prof_ui_kit_2026',
-                    height: 20,
-                    width: 20,
+                    height: orientation == Orientation.portrait ? 20.h : 20,
+                    width: orientation == Orientation.portrait ? 20.w : 20,
                   ),
                   onTap: (){
                     widget.textEditingController.text = '';

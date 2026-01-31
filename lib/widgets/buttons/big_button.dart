@@ -1,78 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 enum BigButtonColor { blue, lightBlue, white, gray }
 
-class BigButton extends StatefulWidget {
+class BigButton extends StatelessWidget {
   const BigButton({
     super.key,
     this.width = 335,
     this.height = 56,
     required this.color,
     required this.onTap,
+    required this.text,
   });
 
   final double width;
   final double height;
   final BigButtonColor color;
   final VoidCallback onTap;
+  final String text;
 
-  @override
-  State<BigButton> createState() => _BigButtonState();
-}
-
-class _BigButtonState extends State<BigButton> {
-  late Color colorText;
-  late Color color;
-
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    switch (widget.color) {
+  Color get _buttonColor {
+    switch (color) {
       case BigButtonColor.blue:
-        color = Color.fromRGBO(32, 116, 242, 1);
-        colorText = Colors.white;
-        break;
+        return Color.fromRGBO(32, 116, 242, 1);
       case BigButtonColor.lightBlue:
-        color = Color.fromRGBO(197, 210, 255, 1);
-        colorText = Colors.white;
-        break;
+        return Color.fromRGBO(197, 210, 255, 1);
       case BigButtonColor.white:
-        color = Colors.white;
-        colorText = Color.fromRGBO(32, 116, 242, 1);
-        break;
+        return Colors.white;
       case BigButtonColor.gray:
-        color = Color.fromRGBO(247, 247, 250, 1);
-        colorText = Colors.black;
-        break;
+        return Color.fromRGBO(247, 247, 250, 1);
+    }
+  }
+
+  Color get _textColor {
+    switch (color) {
+      case BigButtonColor.blue:
+      case BigButtonColor.lightBlue:
+        return Colors.white;
+      case BigButtonColor.white:
+        return Color.fromRGBO(32, 116, 242, 1);
+      case BigButtonColor.gray:
+        return Colors.black;
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, designSize: const Size(375, 812));
+    Orientation orientation = MediaQuery.of(context).orientation;
     return GestureDetector(
-      onTap: widget.onTap,
+      onTap: onTap,
       child: Container(
-        width: widget.width,
-        height: widget.height,
+        width: width,
+        height: height,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: color,
-          border: widget.color == BigButtonColor.white
+          color: _buttonColor,
+          border: color == BigButtonColor.white
               ? Border.all(color: Color.fromRGBO(32, 116, 242, 1), width: 1)
               : null,
         ),
         child: Center(
           child: Text(
-            "Подтвердить",
+            text,
             style: TextStyle(
-              color: colorText,
-              fontSize: 17,
+              color: _textColor,
+              fontSize: orientation == Orientation.portrait ? 17.sp : 17,
               height: 24 / 17,
               letterSpacing: 0,
               fontWeight: FontWeight.w600,
               fontFamily: 'RobotoFlex',
-              // fontFamily:
             ),
           ),
         ),

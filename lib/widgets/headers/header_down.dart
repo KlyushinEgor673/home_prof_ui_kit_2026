@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:home_prof_ui_kit_2026/widgets/bubbles/back.dart';
 
@@ -18,9 +19,11 @@ class HeaderDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, designSize: const Size(375, 812));
+    Orientation orientation = MediaQuery.of(context).orientation;
     return SizedBox(
       width: width,
-      height: 84,
+      height: orientation == Orientation.portrait ? 84.h : 84,
       child: Stack(
         children: [
           Positioned(
@@ -29,15 +32,15 @@ class HeaderDown extends StatelessWidget {
             child: Back(onTap: backCallback),
           ),
           Positioned(
-            top: 11,
-            right: 11,
+            right: 0,
+            bottom: 4.h,
             child: GestureDetector(
               onTap: deleteCallback,
               child: SvgPicture.asset(
                 'icons/delete.svg',
                 package: 'home_prof_ui_kit_2026',
-                height: 20,
-                width: 20,
+                height: orientation == Orientation.portrait ? 20.h : 20,
+                width: orientation == Orientation.portrait ? 20.w : 20,
                 color: Color.fromRGBO(184, 193, 204, 1),
               ),
             ),
@@ -50,7 +53,7 @@ class HeaderDown extends StatelessWidget {
               style: TextStyle(
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w800,
-                fontSize: 24,
+                fontSize: orientation == Orientation.portrait ? 24.sp : 24,
                 height: 28 / 24,
                 letterSpacing: 0.33,
               ),

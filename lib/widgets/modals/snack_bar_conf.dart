@@ -38,6 +38,8 @@ class SnackBarConf extends StatelessWidget {
                   fontSize: 20,
                   height: 28 / 20,
                   letterSpacing: 0.38,
+                  color: Colors.black,
+                    decoration: TextDecoration.none
                 ),
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Select extends StatefulWidget {
@@ -25,6 +26,8 @@ class _SelectState extends State<Select> {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(context, designSize: const Size(375, 812));
+    Orientation orientation = MediaQuery.of(context).orientation;
     return GestureDetector(
       child: Container(
         width: widget.width,
@@ -47,7 +50,7 @@ class _SelectState extends State<Select> {
                         style: TextStyle(
                           fontFamily: 'RobotoFlex',
                           fontWeight: FontWeight.w400,
-                          fontSize: 16,
+                          fontSize: orientation == Orientation.portrait ? 16.sp : 16,
                           height: 20 / 16,
                           letterSpacing: -0.32,
                           color: Color.fromRGBO(147, 147, 150, 1),
@@ -58,7 +61,7 @@ class _SelectState extends State<Select> {
                         style: TextStyle(
                           fontFamily: 'RobotoFlex',
                           fontWeight: FontWeight.w400,
-                          fontSize: 16,
+                          fontSize: orientation == Orientation.portrait ? 16.sp : 16,
                           height: 20 / 16,
                           letterSpacing: -0.32,
                         ),
@@ -66,15 +69,15 @@ class _SelectState extends State<Select> {
               ),
             ),
             Positioned(
-              right: 14,
+              right: orientation == Orientation.portrait ? 14.w : 14,
               top: 0,
               bottom: 0,
               child: Center(
                 child: SvgPicture.asset(
                   'icons/chevron-down.svg',
                   package: 'home_prof_ui_kit_2026',
-                  height: 20,
-                  width: 20,
+                  height: orientation == Orientation.portrait ? 20.h : 20,
+                  width: orientation == Orientation.portrait ? 20.w : 20,
                 ),
               ),
             ),

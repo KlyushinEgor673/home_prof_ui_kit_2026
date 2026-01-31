@@ -16,6 +16,7 @@ class Modal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Orientation orientation = MediaQuery.of(context).orientation;
     return ModalBackground(
       width: width,
       height: height,
